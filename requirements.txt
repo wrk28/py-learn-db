@@ -1,0 +1,9 @@
+asn1crypto==1.5.1
+dotenv==0.9.9
+pg8000==1.31.2
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+scramp==1.4.5
+setuptools==75.8.0
+six==1.17.0
+wheel==0.45.1
