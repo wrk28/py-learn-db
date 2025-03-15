@@ -5,7 +5,7 @@ import pg8000
 
 
 class CustomerDB:
-    def __init__(self, path=None) -> dict:
+    def __init__(self, path:str = None):
         if path is None:
             dotenv_path = os.path.dirname(__file__)
         else:
@@ -103,7 +103,7 @@ class CustomerDB:
         for phone in phones:
             self.add_many_phone_numbers(customer_id, phone)
     
-    def update_customer(self, customer_id, first_name=None, last_name=None, email=None, phones:list = None):
+    def update_customer(self, customer_id: int, first_name:str = None, last_name:str = None, email:str = None, phones:list = None):
         with self.conn.cursor() as cur:
             cur.execute("""
             SELECT first_name,last_name, email
@@ -133,21 +133,21 @@ class CustomerDB:
             for phone in phones:
                 self.add_phone_number(customer_id, phone)
 
-    def remove_all_customer_phones(self, customer_id):
+    def remove_all_customer_phones(self, customer_id: int):
         self.cur.execute("""
         DELETE FROM phone_number
         WHERE customer_id = %s
         """, (customer_id,))
         self.__commit()
 
-    def remove_customer_phone(self, phone_number_id):
+    def remove_customer_phone(self, phone_number_id: int):
         self.cur.execute("""
         DELETE FROM phone_number
         WHERE phone_number_id = %s
         """, (phone_number_id,))
         self.__commit()
 
-    def get_phone_number_id(self, customer_id, phone: str) -> int:
+    def get_phone_number_id(self, customer_id: int, phone: str) -> int:
         self.cur.execute("""
         SELECT phone_number_id
         FROM phone_number
@@ -165,7 +165,7 @@ class CustomerDB:
         """, (customer_id,))
         self.__commit()
 
-    def search_customer_id(self, first_name=None, last_name=None, email=None, phones:list = []) -> set:
+    def search_customer_id(self, first_name:str = None, last_name:str = None, email:str = None, phones:list = []) -> set:
         customers = []
         with self.conn.cursor() as cur:
             for phone in phones:
@@ -201,7 +201,7 @@ class CustomerDB:
                 customers.extend([row[0] for row in result])
         return set(customers)
 
-    def set_schema(self, schema=None):
+    def set_schema(self, schema:str = None):
         if schema is None:
             schema = self.default_schema
 
